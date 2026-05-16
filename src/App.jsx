@@ -1,0 +1,23 @@
+import Navbar from "./components/Navbar";
+import About from "./sections/About";
+import Home from "./sections/Home";
+import Projects from "./sections/Projects";
+import Contact from "./sections/Contact";
+import Footer from "./components/Footer";
+
+function App() {
+  return (
+    <>
+      <Navbar />
+      <Home />
+      <About />
+      <Projects />
+      <Contact />
+      <Footer />
+
+
+    </>
+  );
+}
+
+export default App;
