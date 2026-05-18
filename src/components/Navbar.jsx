@@ -43,6 +43,7 @@ import { motion, AnimatePresence } from "framer-motion";
 function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [activeSection, setActiveSection] = useState("home");
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -196,25 +197,72 @@ function Navbar() {
 
         {/* Mobile Menu Button */}
         <motion.button
-          className="md:hidden w-10 h-10 flex flex-col justify-center items-center gap-1.5 group"
+          className="md:hidden w-10 h-10 flex flex-col justify-center items-center gap-1.5 group z-50 relative"
+          onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.3 }}
         >
           <motion.span
             className="w-6 h-0.5 bg-gray-300 rounded-full"
-            animate={isScrolled ? { rotate: 0 } : { rotate: 0 }}
+            animate={isMobileMenuOpen ? { rotate: 45, y: 8 } : { rotate: 0, y: 0 }}
             transition={{ duration: 0.3 }}
           />
-          <motion.span className="w-6 h-0.5 bg-gray-300 rounded-full" />
           <motion.span
             className="w-6 h-0.5 bg-gray-300 rounded-full"
+            animate={isMobileMenuOpen ? { opacity: 0 } : { opacity: 1 }}
+            transition={{ duration: 0.3 }}
+          />
+          <motion.span
+            className="w-6 h-0.5 bg-gray-300 rounded-full"
+            animate={isMobileMenuOpen ? { rotate: -45, y: -8 } : { rotate: 0, y: 0 }}
             transition={{ duration: 0.3 }}
           />
         </motion.button>
       </div>
 
-      {/* Mobile Menu - Hidden for now, add functionality as needed */}
+      {/* Mobile Menu */}
+      <AnimatePresence>
+        {isMobileMenuOpen && (
+          <motion.div
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+            transition={{ duration: 0.3 }}
+            className="absolute top-full left-0 w-full bg-slate-950/95 backdrop-blur-xl border-b border-white/[0.06] shadow-2xl md:hidden flex flex-col items-center py-8 gap-6"
+          >
+            {navItems.map((item) => (
+              <motion.button
+                key={item.id}
+                onClick={(e) => {
+                  handleNavClick(e, item.id);
+                  setIsMobileMenuOpen(false);
+                }}
+                className={`text-xl font-medium transition-colors ${
+                  activeSection === item.id ? "text-white" : "text-gray-400"
+                }`}
+                whileHover={{ scale: 1.1 }}
+                whileTap={{ scale: 0.95 }}
+              >
+                {item.label}
+              </motion.button>
+            ))}
+            
+            <motion.a
+              href="#contact"
+              onClick={(e) => {
+                handleNavClick(e, "contact");
+                setIsMobileMenuOpen(false);
+              }}
+              className="mt-4 px-8 py-3 rounded-full bg-gradient-to-r from-purple-500 to-pink-500 text-white font-semibold shadow-lg shadow-purple-500/20"
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+            >
+              Get In Touch
+            </motion.a>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </motion.nav>
   );
 }

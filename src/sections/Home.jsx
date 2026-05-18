@@ -438,12 +438,12 @@ function Home() {
   return (
     <section
       id="home"
-      className="relative min-h-screen flex items-center justify-center bg-slate-950 text-white overflow-hidden pt-20"
+      className="relative min-h-[100svh] flex flex-col items-center justify-center bg-slate-950 text-white overflow-hidden pt-24 pb-32 md:pb-24 w-full"
     >
       {/* Premium Cursor */}
       <motion.div
         ref={cursorRef}
-        className="fixed top-0 left-0 w-6 h-6 border-2 border-purple-400 rounded-full pointer-events-none z-50 mix-blend-screen"
+        className="hidden lg:block fixed top-0 left-0 w-6 h-6 border-2 border-purple-400 rounded-full pointer-events-none z-50 mix-blend-screen"
         animate={{
           x: pos.x - 12,
           y: pos.y - 12,
@@ -457,7 +457,7 @@ function Home() {
 
       {/* Inner glow dot */}
       <motion.div
-        className="fixed top-0 left-0 w-1 h-1 bg-purple-300 rounded-full pointer-events-none z-50"
+        className="hidden lg:block fixed top-0 left-0 w-1 h-1 bg-purple-300 rounded-full pointer-events-none z-50"
         animate={{
           x: pos.x - 2,
           y: pos.y - 2,
@@ -609,32 +609,34 @@ function Home() {
       </div>
 
       {/* Scroll Indicator - Enhanced */}
-      <motion.button
-        onClick={handleScrollToAbout}
-        className="absolute bottom-8 left-1/2 transform -translate-x-1/2 z-20 cursor-pointer hover:opacity-80 transition-opacity"
-        animate={{ y: [0, 8, 0] }}
-        transition={{
-          duration: 2,
-          repeat: Infinity,
-        }}
-      >
-        <div className="flex flex-col items-center gap-2">
-          <span className="text-xs text-gray-500 uppercase tracking-widest font-medium">
-            Scroll
-          </span>
-          <motion.div
-            className="w-6 h-10 border border-gray-600 rounded-full flex justify-center"
-            animate={{ opacity: [0.5, 1, 0.5] }}
-            transition={{ duration: 2, repeat: Infinity }}
-          >
+      <div className="absolute bottom-6 md:bottom-10 left-1/2 -translate-x-1/2 z-20">
+        <motion.button
+          onClick={handleScrollToAbout}
+          className="cursor-pointer hover:opacity-80 transition-opacity flex flex-col items-center gap-2"
+          animate={{ y: [0, 8, 0] }}
+          transition={{
+            duration: 2,
+            repeat: Infinity,
+          }}
+        >
+          <div className="flex flex-col items-center gap-2">
+            <span className="text-[10px] md:text-xs text-gray-500 uppercase tracking-widest font-medium">
+              Scroll
+            </span>
             <motion.div
-              className="w-1 h-2 bg-gray-600 rounded-full mt-2"
-              animate={{ y: [0, 4, 0] }}
+              className="w-6 h-10 border border-gray-600 rounded-full flex justify-center"
+              animate={{ opacity: [0.5, 1, 0.5] }}
               transition={{ duration: 2, repeat: Infinity }}
-            />
-          </motion.div>
-        </div>
-      </motion.button>
+            >
+              <motion.div
+                className="w-1 h-2 bg-gray-600 rounded-full mt-2"
+                animate={{ y: [0, 4, 0] }}
+                transition={{ duration: 2, repeat: Infinity }}
+              />
+            </motion.div>
+          </div>
+        </motion.button>
+      </div>
     </section>
   );
 }
